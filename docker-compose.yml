@@ -41,7 +41,7 @@ services:
       POSTGRES_USER: kestra
       POSTGRES_PASSWORD: k3str4
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -79,6 +79,11 @@ services:
               basePath: "/app/storage"
           queue:
             type: postgres
+          ai:
+            type: gemini
+            gemini:
+              model-name: gemini-2.5-flash
+              api-key: ${GEMINI_API_KEY} 
           tasks:
             tmpDir:
               path: /tmp/kestra-wd/tmp
@@ -89,4 +94,3 @@ services:
     depends_on:
       kestra_postgres:
         condition: service_started
-    
